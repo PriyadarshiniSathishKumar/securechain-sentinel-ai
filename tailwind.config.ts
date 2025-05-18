@@ -1,3 +1,4 @@
+
 import type { Config } from "tailwindcss";
 
 export default {
@@ -61,6 +62,16 @@ export default {
 					'accent-foreground': 'hsl(var(--sidebar-accent-foreground))',
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
+				},
+				// Custom SecureChainAI colors
+				cyber: {
+					dark: '#0A1929',
+					blue: '#2563EB',
+					indigo: '#4F46E5',
+					accent: '#3B82F6',
+					warning: '#F97316',
+					alert: '#DC2626',
+					success: '#10B981',
 				}
 			},
 			borderRadius: {
@@ -84,11 +95,31 @@ export default {
 					to: {
 						height: '0'
 					}
+				},
+				'pulse-slow': {
+					'0%, 100%': { opacity: '1' },
+					'50%': { opacity: '0.8' }
+				},
+				'glow': {
+					'0%, 100%': { boxShadow: '0 0 5px rgba(59, 130, 246, 0.5)' },
+					'50%': { boxShadow: '0 0 15px rgba(59, 130, 246, 0.8)' }
+				},
+				'network-pulse': {
+					'0%': { transform: 'scale(0.95)', opacity: '1' },
+					'70%': { transform: 'scale(1.1)', opacity: '0.7' },
+					'100%': { transform: 'scale(1.2)', opacity: '0' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
-				'accordion-up': 'accordion-up 0.2s ease-out'
+				'accordion-up': 'accordion-up 0.2s ease-out',
+				'pulse-slow': 'pulse-slow 3s infinite cubic-bezier(0.4, 0, 0.6, 1)',
+				'glow': 'glow 1.5s infinite ease-in-out',
+				'network-pulse': 'network-pulse 1.5s infinite',
+			},
+			backgroundImage: {
+				'cyber-grid': 'linear-gradient(to right, #0A1929 1px, transparent 1px), linear-gradient(to bottom, #0A1929 1px, transparent 1px)',
+				'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
 			}
 		}
 	},
