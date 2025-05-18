@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Bell, Search, Shield } from 'lucide-react';
+import { toast } from "@/hooks/use-toast";
 
 interface DashboardHeaderProps {
   title: string;
@@ -8,6 +9,14 @@ interface DashboardHeaderProps {
 }
 
 const DashboardHeader = ({ title, description }: DashboardHeaderProps) => {
+  const handleNotificationClick = () => {
+    toast({
+      title: "Notifications",
+      description: "You have 3 unread security alerts that require attention.",
+      duration: 3000,
+    });
+  };
+  
   return (
     <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center px-4 py-6 border-b border-slate-800">
       <div>
@@ -31,7 +40,10 @@ const DashboardHeader = ({ title, description }: DashboardHeaderProps) => {
         </div>
         
         {/* Notifications */}
-        <button className="relative p-2 bg-slate-800 rounded-md hover:bg-slate-700">
+        <button 
+          className="relative p-2 bg-slate-800 rounded-md hover:bg-slate-700"
+          onClick={handleNotificationClick}
+        >
           <Bell className="h-5 w-5 text-slate-400" />
           <span className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center rounded-full bg-cyber-alert text-[10px] text-white">
             3

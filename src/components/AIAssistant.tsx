@@ -1,158 +1,145 @@
 
 import React, { useState } from 'react';
-import { Terminal, Send, X } from 'lucide-react';
-
-interface Message {
-  id: string;
-  content: string;
-  sender: 'user' | 'ai';
-  timestamp: Date;
-}
+import { MessageCircle, X, ChevronRight } from 'lucide-react';
+import { cn } from '@/lib/utils';
 
 const AIAssistant = () => {
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      content: "Hi, I'm your AI Security Assistant. How can I help you with your cybersecurity needs today?",
-      sender: 'ai',
-      timestamp: new Date(),
-    },
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<{text: string, isUser: boolean}[]>([
+    { text: "Hello! I'm your SecureChainAI assistant. How can I help you today?", isUser: false }
   ]);
-  
-  const [input, setInput] = useState('');
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [inputValue, setInputValue] = useState('');
 
-  const handleSendMessage = (e: React.FormEvent) => {
+  const toggleAssistant = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!input.trim()) return;
+    if (!inputValue.trim()) return;
     
-    // Add user message
-    const userMessage: Message = {
-      id: Date.now().toString(),
-      content: input,
-      sender: 'user',
-      timestamp: new Date(),
-    };
-    
-    setMessages([...messages, userMessage]);
-    setInput('');
+    setMessages([...messages, { text: inputValue, isUser: true }]);
+    setInputValue('');
     
     // Simulate AI response after a short delay
     setTimeout(() => {
-      let response: Message;
-      
-      // Generate contextual responses based on keywords
-      if (input.toLowerCase().includes('threat') || input.toLowerCase().includes('attack')) {
-        response = {
-          id: (Date.now() + 1).toString(),
-          content: "I've analyzed recent threats across your network. There are 3 potential vulnerabilities detected in the eastern cluster. Would you like me to run an automated mitigation protocol?",
-          sender: 'ai',
-          timestamp: new Date(),
-        };
-      } else if (input.toLowerCase().includes('blockchain') || input.toLowerCase().includes('smart contract')) {
-        response = {
-          id: (Date.now() + 1).toString(),
-          content: "Your blockchain network is secure. All smart contracts have passed security audits. The latest validator node was added 2 hours ago and is functioning properly.",
-          sender: 'ai',
-          timestamp: new Date(),
-        };
-      } else if (input.toLowerCase().includes('scan') || input.toLowerCase().includes('vulnerable')) {
-        response = {
-          id: (Date.now() + 1).toString(),
-          content: "Scanning network infrastructure... Complete. Identified 2 outdated SSL certificates and 1 potential XSS vulnerability in the admin portal. Would you like me to provide remediation steps?",
-          sender: 'ai',
-          timestamp: new Date(),
-        };
-      } else {
-        response = {
-          id: (Date.now() + 1).toString(),
-          content: "I'm analyzing your request. Our AI and blockchain systems are working together to provide you with the most accurate security assessment. Is there a specific area of your infrastructure you're concerned about?",
-          sender: 'ai',
-          timestamp: new Date(),
-        };
-      }
-      
-      setMessages(prevMessages => [...prevMessages, response]);
+      setMessages(prev => [...prev, { 
+        text: "I'm analyzing your request. As a demo, this is a simulated response. In a production environment, I would connect to our AI backend to provide real assistance.", 
+        isUser: false 
+      }]);
     }, 1000);
   };
 
-  const toggleExpanded = () => {
-    setIsExpanded(!isExpanded);
+  const handleSuggestionClick = (suggestion: string) => {
+    setMessages([...messages, { text: suggestion, isUser: true }]);
+    
+    // Simulate AI response after a short delay
+    setTimeout(() => {
+      setMessages(prev => [...prev, { 
+        text: "I'm analyzing your request about " + suggestion.toLowerCase() + ". As a demo, this is a simulated response. In a production environment, I would connect to our AI backend to provide real assistance.", 
+        isUser: false 
+      }]);
+    }, 1000);
   };
 
+  const suggestions = [
+    "How do I detect network intrusions?",
+    "Explain blockchain security features",
+    "What AI models detect malware?",
+    "How to secure cloud infrastructure",
+    "Best practices for secure collaboration"
+  ];
+
   return (
-    <div className={`fixed bottom-4 right-4 z-10 transition-all duration-300 ${isExpanded ? 'w-80 h-96' : 'w-auto h-auto'}`}>
-      {isExpanded ? (
-        <div className="cyber-card h-full flex flex-col">
-          <div className="flex items-center justify-between p-3 border-b border-slate-700">
-            <div className="flex items-center gap-2">
-              <Terminal size={16} className="text-cyber-blue" />
-              <h3 className="text-sm font-semibold text-white">AI Security Assistant</h3>
-            </div>
-            <button
-              onClick={toggleExpanded}
-              className="text-slate-400 hover:text-white p-1 rounded"
-            >
-              <X size={16} />
-            </button>
+    <>
+      {/* Floating button */}
+      <button 
+        onClick={toggleAssistant}
+        className={cn(
+          "fixed right-4 bottom-4 z-50 flex items-center justify-center p-3 rounded-full shadow-lg transition-all duration-300",
+          isOpen ? "bg-slate-700 rotate-90" : "bg-cyber-blue"
+        )}
+      >
+        {isOpen ? (
+          <X className="h-6 w-6 text-white" />
+        ) : (
+          <MessageCircle className="h-6 w-6 text-white" />
+        )}
+      </button>
+      
+      {/* Chat window */}
+      <div 
+        className={cn(
+          "fixed right-4 bottom-20 w-80 sm:w-96 bg-slate-900 border border-slate-800 rounded-lg shadow-xl z-40 transition-all duration-300 flex flex-col",
+          isOpen ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0 pointer-events-none overflow-hidden"
+        )}
+      >
+        {/* Header */}
+        <div className="p-3 border-b border-slate-800 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="h-2 w-2 bg-cyber-success rounded-full animate-pulse"></div>
+            <h3 className="font-medium text-sm text-white">AI Security Assistant</h3>
           </div>
-          
-          <div className="flex-1 overflow-y-auto p-3 space-y-3">
-            {messages.map((message) => (
-              <div
-                key={message.id}
-                className={`flex ${
-                  message.sender === 'user' ? 'justify-end' : 'justify-start'
-                }`}
-              >
-                <div
-                  className={`max-w-[80%] rounded-lg p-3 ${
-                    message.sender === 'user'
-                      ? 'bg-cyber-blue text-white'
-                      : 'bg-slate-800 text-slate-200'
-                  }`}
-                >
-                  <p className="text-sm">{message.content}</p>
-                  <p className="text-xs opacity-70 mt-1">
-                    {message.timestamp.toLocaleTimeString([], {
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    })}
-                  </p>
-                </div>
-              </div>
-            ))}
-          </div>
-          
-          <form onSubmit={handleSendMessage} className="border-t border-slate-700 p-3">
-            <div className="flex items-center gap-2">
-              <input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask about security..."
-                className="flex-1 bg-slate-800 text-white rounded-md py-2 px-3 text-sm focus:outline-none focus:ring-1 focus:ring-cyber-blue"
-              />
-              <button
-                type="submit"
-                className="p-2 bg-cyber-blue rounded-md hover:bg-opacity-90"
-              >
-                <Send size={16} className="text-white" />
-              </button>
-            </div>
-          </form>
+          <span className="text-xs text-slate-400">SecureChainAI</span>
         </div>
-      ) : (
-        <button
-          onClick={toggleExpanded}
-          className="cyber-card flex items-center gap-2 bg-cyber-blue hover:bg-opacity-90"
-        >
-          <Terminal size={16} className="text-white" />
-          <span className="text-sm font-medium text-white">AI Assistant</span>
-        </button>
-      )}
-    </div>
+        
+        {/* Chat messages */}
+        <div className="flex-1 overflow-y-auto p-3 space-y-3 max-h-[300px]">
+          {messages.map((message, index) => (
+            <div 
+              key={index}
+              className={cn(
+                "p-2 rounded-lg max-w-[85%] text-sm",
+                message.isUser 
+                  ? "bg-cyber-blue text-white ml-auto" 
+                  : "bg-slate-800 text-slate-100"
+              )}
+            >
+              {message.text}
+            </div>
+          ))}
+        </div>
+
+        {/* Suggestions */}
+        {messages.length <= 2 && (
+          <div className="p-3 border-t border-slate-800">
+            <p className="text-xs text-slate-400 mb-2">Suggested questions:</p>
+            <div className="space-y-2">
+              {suggestions.map((suggestion, index) => (
+                <button 
+                  key={index}
+                  onClick={() => handleSuggestionClick(suggestion)}
+                  className="flex items-center gap-2 text-xs w-full p-2 rounded-md hover:bg-slate-800 text-left text-slate-300"
+                >
+                  <ChevronRight size={12} className="text-cyber-blue" />
+                  {suggestion}
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        
+        {/* Input area */}
+        <form onSubmit={handleSubmit} className="p-3 border-t border-slate-800 flex gap-2">
+          <input
+            type="text"
+            placeholder="Ask a security question..."
+            value={inputValue}
+            onChange={(e) => setInputValue(e.target.value)}
+            className="flex-1 bg-slate-800 border border-slate-700 rounded-md px-3 py-2 text-sm text-white focus:outline-none focus:ring-1 focus:ring-cyber-blue"
+          />
+          <button 
+            type="submit"
+            className="bg-cyber-blue text-white p-2 rounded-md hover:bg-blue-600"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polyline points="9 18 15 12 9 6"></polyline>
+            </svg>
+          </button>
+        </form>
+      </div>
+    </>
   );
 };
 

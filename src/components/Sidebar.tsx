@@ -2,40 +2,45 @@
 import React, { useState } from 'react';
 import { Shield, Database, Network, Terminal, User, Users, Cloud, Lock } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { Link, useLocation } from 'react-router-dom';
 
 interface SidebarItemProps {
   icon: React.ElementType;
   label: string;
-  active?: boolean;
+  path: string;
   alert?: number;
-  onClick: () => void;
 }
 
-const SidebarItem = ({ icon: Icon, label, active = false, alert, onClick }: SidebarItemProps) => (
-  <li>
-    <button
-      onClick={onClick}
-      className={cn(
-        "w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200",
-        active 
-          ? "bg-cyber-blue text-white" 
-          : "text-slate-300 hover:bg-slate-800/60"
-      )}
-    >
-      <Icon size={18} />
-      <span className="text-sm font-medium">{label}</span>
-      {alert && (
-        <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-cyber-alert text-xs text-white">
-          {alert}
-        </span>
-      )}
-    </button>
-  </li>
-);
+const SidebarItem = ({ icon: Icon, label, path, alert }: SidebarItemProps) => {
+  const location = useLocation();
+  const active = location.pathname === path;
+
+  return (
+    <li>
+      <Link
+        to={path}
+        className={cn(
+          "w-full flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200",
+          active 
+            ? "bg-cyber-blue text-white" 
+            : "text-slate-300 hover:bg-slate-800/60"
+        )}
+      >
+        <Icon size={18} />
+        <span className="text-sm font-medium">{label}</span>
+        {alert && (
+          <span className="ml-auto flex h-5 w-5 items-center justify-center rounded-full bg-cyber-alert text-xs text-white">
+            {alert}
+          </span>
+        )}
+      </Link>
+    </li>
+  );
+};
 
 const Sidebar = () => {
-  const [activeTab, setActiveTab] = useState('dashboard');
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const location = useLocation();
   
   const toggleSidebar = () => {
     setIsCollapsed(!isCollapsed);
@@ -72,71 +77,64 @@ const Sidebar = () => {
             <SidebarItem 
               icon={Shield} 
               label="Dashboard" 
-              active={activeTab === 'dashboard'} 
-              onClick={() => setActiveTab('dashboard')} 
+              path="/" 
             />
             <SidebarItem 
               icon={Network} 
               label="Network Security" 
-              active={activeTab === 'network'} 
+              path="/network-security" 
               alert={3}
-              onClick={() => setActiveTab('network')} 
             />
             <SidebarItem 
               icon={Database} 
               label="Blockchain" 
-              active={activeTab === 'blockchain'} 
-              onClick={() => setActiveTab('blockchain')} 
+              path="/blockchain" 
             />
             <SidebarItem 
               icon={Terminal} 
               label="AI Models" 
-              active={activeTab === 'aimodels'} 
-              onClick={() => setActiveTab('aimodels')} 
+              path="/ai-models" 
             />
             <SidebarItem 
               icon={Cloud} 
               label="Cloud Security" 
-              active={activeTab === 'cloud'} 
-              onClick={() => setActiveTab('cloud')} 
+              path="/cloud-security" 
             />
             <SidebarItem 
               icon={Users} 
               label="Collaboration" 
-              active={activeTab === 'collaboration'} 
-              onClick={() => setActiveTab('collaboration')} 
+              path="/collaboration" 
             />
             <SidebarItem 
               icon={Lock} 
               label="Access Control" 
-              active={activeTab === 'access'} 
-              onClick={() => setActiveTab('access')} 
+              path="/access-control" 
             />
           </ul>
         ) : (
           <ul className="flex flex-col items-center space-y-5 pt-5">
-            <button onClick={() => setActiveTab('dashboard')} className={cn("p-2 rounded-md", activeTab === 'dashboard' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            <Link to="/" className={cn("p-2 rounded-md", location.pathname === "/" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Shield size={20} />
-            </button>
-            <button onClick={() => setActiveTab('network')} className={cn("p-2 rounded-md relative", activeTab === 'network' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            </Link>
+            <Link to="/network-security" className={cn("p-2 rounded-md relative", location.pathname === "/network-security" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Network size={20} />
               <span className="absolute top-0 right-0 h-2 w-2 rounded-full bg-cyber-alert"></span>
-            </button>
-            <button onClick={() => setActiveTab('blockchain')} className={cn("p-2 rounded-md", activeTab === 'blockchain' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            </Link>
+            <Link to="/blockchain" className={cn("p-2 rounded-md", location.pathname === "/blockchain" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Database size={20} />
-            </button>
-            <button onClick={() => setActiveTab('aimodels')} className={cn("p-2 rounded-md", activeTab === 'aimodels' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            </Link>
+            <Link to="/ai-models" className={cn("p-2 rounded-md", location.pathname === "/ai-models" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Terminal size={20} />
-            </button>
-            <button onClick={() => setActiveTab('cloud')} className={cn("p-2 rounded-md", activeTab === 'cloud' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            </Link>
+            <Link to="/cloud-security" className={cn("p-2 rounded-md", location.pathname === "/cloud-security" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Cloud size={20} />
-            </button>
-            <button onClick={() => setActiveTab('collaboration')} className={cn("p-2 rounded-md", activeTab === 'collaboration' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            </Link>
+            <Link to="/collaboration" className={cn("p-2 rounded-md", location.pathname === "/collaboration" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Users size={20} />
-            </button>
-            <button onClick={() => setActiveTab('access')} className={cn("p-2 rounded-md", activeTab === 'access' ? "bg-cyber-blue text-white" : "text-slate-400")}>
+            </Link>
+            <Link to="/access-control" className={cn("p-2 rounded-md", location.pathname === "/access-control" ? "bg-cyber-blue text-white" : "text-slate-400")}>
               <Lock size={20} />
-            </button>
+            </Link>
           </ul>
         )}
       </nav>
