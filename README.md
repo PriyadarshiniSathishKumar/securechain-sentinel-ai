@@ -1,73 +1,23 @@
-# Welcome to your Lovable project
+**SecureChainAI** is a decentralized AI-powered cyber defense and collaboration platform that combines multiple cutting-edge technologies:
 
-## Project info
+<img width="1892" height="869" alt="image" src="https://github.com/user-attachments/assets/9d53821f-372e-4ba6-ba93-42b86f1eef23" />
+<img width="1899" height="866" alt="image" src="https://github.com/user-attachments/assets/cb040fa1-be33-4760-8ba9-a06abfc8191b" />
 
-**URL**: https://lovable.dev/projects/32b34194-9c24-4948-a27b-4ad81aef6429
+## What it does:
+- **AI-based threat detection** - Real-time malware, phishing, and intrusion detection
+- **Collaborative AI training** - Decentralized model development with blockchain rewards
+- **Zero-trust security** - Comprehensive cybersecurity with blockchain-based access control
+- **Network monitoring** - Advanced threat mapping and anomaly detection
+- **Generative AI assistant** - Real-time incident response and automated report generation
 
-## How can I edit this code?
+## Tech Stack:
+**Frontend**: React, TypeScript, Tailwind CSS, Shadcn UI, Vite
+**Backend**: Node.js, Express, Python (ML APIs)
+**AI/ML**: PyTorch/TensorFlow, Scikit-learn, HuggingFace Transformers
+**Blockchain**: Solidity, Ethereum/Polygon, Web3.js, IPFS
+**Security**: Zero Trust Architecture, End-to-end encryption, Intrusion detection
+**Networking**: SDN, VPN integration, Packet analysis
+**Cloud**: AWS/GCP, Kubernetes, Docker, Serverless functions
+**DevOps**: CI/CD pipelines, GitHub Actions, Microservices architecture
 
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/32b34194-9c24-4948-a27b-4ad81aef6429) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
-
-**Edit a file directly in GitHub**
-
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
-
-**Use GitHub Codespaces**
-
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
-
-## What technologies are used for this project?
-
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/32b34194-9c24-4948-a27b-4ad81aef6429) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+The platform enables secure collaboration between individuals, enterprises, and researchers while providing comprehensive cyber defense through decentralized AI models.
